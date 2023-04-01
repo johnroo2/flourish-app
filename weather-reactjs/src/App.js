@@ -2,6 +2,10 @@ import logo from './logo.svg';
 import './App.css';
 import TextResize from './textresizer';
 
+const key = require('.//key.json');
+console.log(key)
+console.log(key.key)
+
 function App() {
   return (
     <div className="App">
@@ -18,7 +22,7 @@ function App() {
         >
           Learn React
         </a>
-        <TextResize/>
+        {/* <TextResize/> */}
       </header>
     </div>
   );
