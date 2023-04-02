@@ -1,17 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
-import TextResize from './textresizer';
-
-const key = require('.//key.json');
-console.log(key)
-console.log(key.key)
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p id="shifttext">
+        <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
         <a
@@ -22,7 +17,6 @@ function App() {
         >
           Learn React
         </a>
-        {/* <TextResize/> */}
       </header>
     </div>
   );
