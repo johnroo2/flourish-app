@@ -77,13 +77,38 @@ function App() {
           <p class="para-white"><i>Feels Like</i></p>
           <p class="weather-sub">{weather.temp_fl}</p>
           <p class="para-white">{weather.wtype}</p>
-          <p class="para-blue">Wind<span class="para-white" style={{marginLeft:"200px"}}>{weather.wind}</span></p>
-          <p class="para-blue">Wind Gust<span class="para-white" style={{marginLeft:"200px"}}>{weather.wind_gust}</span></p>
-          <p class="para-blue">Humidity<span class="para-white" style={{marginLeft:"200px"}}>{weather.humidity}</span></p>
-          <p class="para-blue">Pressure<span class="para-white" style={{marginLeft:"200px"}}>{weather.pressure}</span></p>
-          <p class="para-blue">Visibility<span class="para-white" style={{marginLeft:"200px"}}>{weather.visibility}</span></p>
-          <p class="para-blue">Sunrise<span class="para-white" style={{marginLeft:"200px"}}>{weather.sunrise}</span></p>
-          <p class="para-blue">Sunset<span class="para-white" style={{marginLeft:"200px"}}>{weather.sunset}</span></p></>}
+          
+          <div class="container">
+            <div class="subcontainer">
+                <p class="para-blue">Wind</p>
+                <p class="para-white">{weather.wind}</p>
+            </div>
+            <div class="subcontainer">
+                <p class="para-blue">Wind Gust</p>
+                <p class="para-white">{weather.wind_gust}</p>
+            </div>
+            <div class="subcontainer">
+                <p class="para-blue">Humidity</p>
+                <p class="para-white">{weather.humidity}</p>
+            </div>
+            <div class="subcontainer">
+                <p class="para-blue">Pressure</p>
+                <p class="para-white">{weather.pressure}</p>
+            </div>
+            <div class="subcontainer">
+                <p class="para-blue">Visibility</p>
+                <p class="para-white">{weather.visibility}</p>
+            </div>
+            <div class="subcontainer">
+                <p class="para-blue">Sunrise</p>
+                <p class="para-white">{weather.sunrise}</p>
+            </div>
+            <div class="subcontainer">
+                <p class="para-blue">Sunset</p>
+                <p class="para-white">{weather.sunset}</p>
+            </div>
+          </div></>}
+        
         {weather.loading &&
         <><h1>Loading information...</h1></>}
         </div>

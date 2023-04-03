@@ -25,14 +25,28 @@ p{
   margin:0;
 }
 
+.container{
+  display:flex;
+  flex-direction:column;
+  width:900px;
+}
+
+.subcontainer{
+  display:flex;
+  flex-direction:row;
+  justify-content:flex-start;
+}
+
 .para-white { 
   font-size: 30px;
   color: white;
+  flex:1
 }
 
 .para-blue{
   font-size: 30px;
   color: #99CCE9;
+  flex:1;
 }
 
 .header{
