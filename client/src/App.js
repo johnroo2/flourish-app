@@ -48,11 +48,12 @@ function App() {
       temp: !data.main.temp ? "Unknown" : tempMod(data.main.temp, 0),
       temp_fl: !data.main.feels_like ? "Unknown" : tempMod(data.main.feels_like, 0),
       wtype: !data.weather[0].main ? "Unknown" : data.weather[0].main,
-      wind: (!data.wind.speed || !data.wind.deg) ? "0 km/h []" : data.wind.speed + " km/h [" + dirFromAngle(data.wind.deg, 20) + "]",
-      wind_gust: !data.wind.gust ? "0 km/h" : data.wind.gust + " km/h",
+      wind: (!data.wind.speed || !data.wind.deg) ? "0 km/h []" : parseFloat(data.wind.speed * 3.6).toFixed(0)
+       + " km/h [" + dirFromAngle(data.wind.deg, 20) + "]",
+      wind_gust: !data.wind.gust ? "0 km/h" : parseFloat(data.wind.gust * 3.6).toFixed(0) + " km/h",
       humidity: !data.main.humidity ? "0%" : data.main.humidity + "%",
-      pressure: !data.main.pressure ? "0 kPa" : data.main.pressure/10.0 + " kPa",
-      visibility: !data.visibility ? "0 km" : parseFloat(data.visibility/1000.0).toFixed(1) + " km",
+      pressure: !data.main.pressure ? "0 kPa" : data.main.pressure/10.0 + " kPa", //?? 
+      visibility: !data.visibility ? "0 km" : parseFloat(data.visibility/1000.0).toFixed(1) + " km", //this is broken
       sunrise: !data.sys.sunrise ? "Unknown" : dateProcess(data.sys.sunrise), 
       sunset: !data.sys.sunset? "Unknown" : dateProcess(data.sys.sunset)};
   }
@@ -69,18 +70,20 @@ function App() {
         {/* <img src={logo} className="App-logo" alt="logo" /> */}
         <div class = "jost">
         {!weather.loading &&
-          <><p>Location: {weather.loc}</p>
-          <p>Date Retrieved: {weather.retrieved}</p>
-          <p>Temperature: {weather.temp}</p>
-          <p>Feels Like: {weather.temp_fl}</p>
-          <p>Weather: {weather.wtype}</p>
-          <p>Wind: {weather.wind}</p>
-          <p>Wind Gust: {weather.wind_gust}</p>
-          <p>Humidity: {weather.humidity}</p>
-          <p>Pressure: {weather.pressure}</p>
-          <p>Visibility: {weather.visibility}</p>
-          <p>Sunrise: {weather.sunrise}</p>
-          <p>Sunset: {weather.sunset}</p></>}
+          <>
+          <p class="header"><b>{weather.loc}</b></p>
+          <p class="para-white">Retrieved on {weather.retrieved}</p>
+          <p class="weather-main">{weather.temp}</p>
+          <p class="para-white"><i>Feels Like</i></p>
+          <p class="weather-sub">{weather.temp_fl}</p>
+          <p class="para-white">{weather.wtype}</p>
+          <p class="para-blue">Wind<span class="para-white" style={{marginLeft:"200px"}}>{weather.wind}</span></p>
+          <p class="para-blue">Wind Gust<span class="para-white" style={{marginLeft:"200px"}}>{weather.wind_gust}</span></p>
+          <p class="para-blue">Humidity<span class="para-white" style={{marginLeft:"200px"}}>{weather.humidity}</span></p>
+          <p class="para-blue">Pressure<span class="para-white" style={{marginLeft:"200px"}}>{weather.pressure}</span></p>
+          <p class="para-blue">Visibility<span class="para-white" style={{marginLeft:"200px"}}>{weather.visibility}</span></p>
+          <p class="para-blue">Sunrise<span class="para-white" style={{marginLeft:"200px"}}>{weather.sunrise}</span></p>
+          <p class="para-blue">Sunset<span class="para-white" style={{marginLeft:"200px"}}>{weather.sunset}</span></p></>}
         {weather.loading &&
         <><h1>Loading information...</h1></>}
         </div>

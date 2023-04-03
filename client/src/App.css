@@ -2,9 +2,58 @@
 
 .jost{
   font-family: "Jost";
+  margin: 4%;
+}
+/* 
+h1{
+  font-size: "70px";
+  color: #99CCE9;
+  padding: 0%;
 }
 
-.App-header {
+p{
+  font-size: "30px";
+  color: white
+} */
+
+.top{
+  display:flex;
+  flex-direction: column;
+  gap: 0px;
+  list-style: none;
+  padding:0;
+  margin:0;
+}
+
+.para-white { 
+  font-size: 30px;
+  color: white;
+}
+
+.para-blue{
+  font-size: 30px;
+  color: #99CCE9;
+}
+
+.header{
+  font-size: 70px;
+  color: #99CCE9;
+}
+
+.weather-main{
+  font-size: 140px;
+  color: #99CCE9;
+}
+
+.weather-sub{
+  font-size: 60px;
+  color: white;
+}
+
+.App-header{
   background-color: #151924;
-  color: #99CCE9; /* white */
+}
+
+body{
+  background-color: #37405D;
 }
