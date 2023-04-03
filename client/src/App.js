@@ -82,6 +82,7 @@ function App() {
             <div class="subcontainer">
                 <p class="para-blue">Wind</p>
                 <p class="para-white">{weather.wind}</p>
+                
             </div>
             <div class="subcontainer">
                 <p class="para-blue">Wind Gust</p>
