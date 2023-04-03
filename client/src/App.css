@@ -2,19 +2,14 @@
 
 .jost{
   font-family: "Jost";
-  margin: 4%;
-}
-/* 
-h1{
-  font-size: "70px";
-  color: #99CCE9;
-  padding: 0%;
 }
 
 p{
   font-size: "30px";
-  color: white
-} */
+  color: white;
+  margin-block-start: 0;
+  margin-block-end: 0;
+} 
 
 .top{
   display:flex;
@@ -28,7 +23,7 @@ p{
 .container{
   display:flex;
   flex-direction:column;
-  width:900px;
+  width:480px;
 }
 
 .subcontainer{
