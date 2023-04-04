@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "./logo.svg";
+import axios from "axios";
 import "./App.css";
 
 function dirFromAngle(ori, cardinal){
@@ -27,15 +27,15 @@ function dateProcess(time, full=false){
 }
 
 function App() {
+  const baseURL =
+  "https://api.openweathermap.org/data/2.5/weather?lat=42.984924&lon=-81.245277&appid=d40c85f3ab82af7c1266223395301792";
+
   const [data, setData] = React.useState(null);
 
   React.useEffect(() => {
-    fetch("http://localhost:3001/api")
-      .then((res) => res.json())
-      .then((json) => {
-        setData(json);
-      })
-      .catch((e) => {console.log(e)});
+    axios.get(baseURL).then((response) => {
+      setData(response.data);
+    });
   }, []);
 
   let weather;
@@ -53,7 +53,7 @@ function App() {
       wind_gust: !data.wind.gust ? "0 km/h" : parseFloat(data.wind.gust * 3.6).toFixed(0) + " km/h",
       humidity: !data.main.humidity ? "0%" : data.main.humidity + "%",
       pressure: !data.main.pressure ? "0 kPa" : data.main.pressure/10.0 + " kPa", //?? 
-      visibility: !data.visibility ? "0 km" : parseFloat(data.visibility/1000.0).toFixed(1) + " km", //this is broken
+      visibility: !data.visibility ? "0 km" : parseFloat(2.4 * data.visibility/1000.0).toFixed(1) + " km", //this is broken
       sunrise: !data.sys.sunrise ? "Unknown" : dateProcess(data.sys.sunrise), 
       sunset: !data.sys.sunset? "Unknown" : dateProcess(data.sys.sunset)};
   }
@@ -62,56 +62,59 @@ function App() {
       loading:true};
     }
 
-  console.log(weather);
-
   return (
     <div className="App">
       <header className="App-header">
         {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        <div class = "jost">
+        <div className= "jost">
         {!weather.loading &&
           <>
-          <p class="header"><b>{weather.loc}</b></p>
-          <p class="para-white">Retrieved on {weather.retrieved}</p>
-          <p class="weather-main">{weather.temp}</p>
-          <p class="para-white"><i>Feels Like</i></p>
-          <p class="weather-sub">{weather.temp_fl}</p>
-          <p class="para-white">{weather.wtype}</p>
-          
-          <div class="container">
-            <div class="subcontainer">
-                <p class="para-blue">Wind</p>
-                <p class="para-white">{weather.wind}</p>
-                
+          <p className="header"><b>{weather.loc}</b></p>
+          <p className="para-white">Retrieved on {weather.retrieved}</p>
+          <div className="weather-center">
+            <p className="weather-main"><b>{weather.temp}</b></p>
+            <div className="feelslike">
+              <p className="para-white"><i>Feels</i></p>
+              <p className="para-white"><i>Like</i></p>
             </div>
-            <div class="subcontainer">
-                <p class="para-blue">Wind Gust</p>
-                <p class="para-white">{weather.wind_gust}</p>
+            <p className="weather-sub">{weather.temp_fl}</p>
+            <img className="weather-img" src={require("./imgs/yikes.png")}></img>
+           </div>
+          <p className="para-white">{weather.wtype}</p>
+          <p className="para-white"><br></br></p>
+          <div className="container">
+            <div className="subcontainer">
+                <p className="para-blue">Wind</p>
+                <p className="para-white">{weather.wind}</p>
             </div>
-            <div class="subcontainer">
-                <p class="para-blue">Humidity</p>
-                <p class="para-white">{weather.humidity}</p>
+            <div className="subcontainer">
+                <p className="para-blue">Wind Gust</p>
+                <p className="para-white">{weather.wind_gust}</p>
             </div>
-            <div class="subcontainer">
-                <p class="para-blue">Pressure</p>
-                <p class="para-white">{weather.pressure}</p>
+            <div className="subcontainer">
+                <p className="para-blue">Humidity</p>
+                <p className="para-white">{weather.humidity}</p>
             </div>
-            <div class="subcontainer">
-                <p class="para-blue">Visibility</p>
-                <p class="para-white">{weather.visibility}</p>
+            <div className="subcontainer">
+                <p className="para-blue">Pressure</p>
+                <p className="para-white">{weather.pressure}</p>
             </div>
-            <div class="subcontainer">
-                <p class="para-blue">Sunrise</p>
-                <p class="para-white">{weather.sunrise}</p>
+            <div className="subcontainer">
+                <p className="para-blue">Visibility</p>
+                <p className="para-white">{weather.visibility}</p>
             </div>
-            <div class="subcontainer">
-                <p class="para-blue">Sunset</p>
-                <p class="para-white">{weather.sunset}</p>
+            <div className="subcontainer">
+                <p className="para-blue">Sunrise</p>
+                <p className="para-white">{weather.sunrise}</p>
+            </div>
+            <div className="subcontainer">
+                <p className="para-blue">Sunset</p>
+                <p className="para-white">{weather.sunset}</p>
             </div>
           </div></>}
         
         {weather.loading &&
-        <><h1>Loading information...</h1></>}
+        <><p className="header" style={{textAlign:"center"}}><b>Loading information...</b></p></>}
         </div>
       </header>
     </div>
