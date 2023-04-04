@@ -3,6 +3,8 @@ import axios from "axios";
 import "./App.css";
 import CountrySelect from "./components/countrySearch";
 
+const API = require("./OpenWeatherMapApi.json");
+
 function dirFromAngle(ori, cardinal){
   if ((ori >= 360 - cardinal  && ori <= 360)|| (ori <= cardinal && ori >= 0)){return "N";}
   else if (ori > cardinal && ori < 90 - cardinal){return "NE";}
@@ -28,8 +30,12 @@ function dateProcess(time, full=false){
 }
 
 function App() {
+
+  let latitude = "42.984924";
+  let longitute = "-81.245277";
+
   const baseURL =
-  "https://api.openweathermap.org/data/2.5/weather?lat=42.984924&lon=-81.245277&appid=d40c85f3ab82af7c1266223395301792";
+  `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitute}&appid=${API.key}`;
 
   const [data, setData] = React.useState(null);
 
