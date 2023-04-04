@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import "./App.css";
+import CountrySelect from "./components/countrySearch";
 
 function dirFromAngle(ori, cardinal){
   if ((ori >= 360 - cardinal  && ori <= 360)|| (ori <= cardinal && ori >= 0)){return "N";}
@@ -63,61 +64,65 @@ function App() {
     }
 
   return (
-    <div className="App">
-      <header className="App-header">
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        <div className= "jost">
-        {!weather.loading &&
-          <>
-          <p className="header"><b>{weather.loc}</b></p>
-          <p className="para-white">Retrieved on {weather.retrieved}</p>
-          <div className="weather-center">
-            <p className="weather-main"><b>{weather.temp}</b></p>
-            <div className="feelslike">
-              <p className="para-white"><i>Feels</i></p>
-              <p className="para-white"><i>Like</i></p>
+    <>
+      <div id="top-container">
+        <CountrySelect />
+      </div>
+      <div className="App">
+        <header className="App-header">
+          <div className= "jost">
+          {!weather.loading &&
+            <>
+            <p className="header"><b>{weather.loc}</b></p>
+            <p className="para-white">Retrieved on {weather.retrieved}</p>
+            <div className="weather-center">
+              <p className="weather-main"><b>{weather.temp}</b></p>
+              <div className="feelslike">
+                <p className="para-white"><i>Feels</i></p>
+                <p className="para-white"><i>Like</i></p>
+              </div>
+              <p className="weather-sub">{weather.temp_fl}</p>
+              <img className="weather-img" src={require("./imgs/yikes.png")}></img>
             </div>
-            <p className="weather-sub">{weather.temp_fl}</p>
-            <img className="weather-img" src={require("./imgs/yikes.png")}></img>
-           </div>
-          <p className="para-white">{weather.wtype}</p>
-          <p className="para-white"><br></br></p>
-          <div className="container">
-            <div className="subcontainer">
-                <p className="para-blue">Wind</p>
-                <p className="para-white">{weather.wind}</p>
-            </div>
-            <div className="subcontainer">
-                <p className="para-blue">Wind Gust</p>
-                <p className="para-white">{weather.wind_gust}</p>
-            </div>
-            <div className="subcontainer">
-                <p className="para-blue">Humidity</p>
-                <p className="para-white">{weather.humidity}</p>
-            </div>
-            <div className="subcontainer">
-                <p className="para-blue">Pressure</p>
-                <p className="para-white">{weather.pressure}</p>
-            </div>
-            <div className="subcontainer">
-                <p className="para-blue">Visibility</p>
-                <p className="para-white">{weather.visibility}</p>
-            </div>
-            <div className="subcontainer">
-                <p className="para-blue">Sunrise</p>
-                <p className="para-white">{weather.sunrise}</p>
-            </div>
-            <div className="subcontainer">
-                <p className="para-blue">Sunset</p>
-                <p className="para-white">{weather.sunset}</p>
-            </div>
-          </div></>}
-        
-        {weather.loading &&
-        <><p className="header" style={{textAlign:"center"}}><b>Loading information...</b></p></>}
-        </div>
-      </header>
-    </div>
+            <p className="para-white">{weather.wtype}</p>
+            <p className="para-white"><br></br></p>
+            <div className="container">
+              <div className="subcontainer">
+                  <p className="para-blue">Wind</p>
+                  <p className="para-white">{weather.wind}</p>
+              </div>
+              <div className="subcontainer">
+                  <p className="para-blue">Wind Gust</p>
+                  <p className="para-white">{weather.wind_gust}</p>
+              </div>
+              <div className="subcontainer">
+                  <p className="para-blue">Humidity</p>
+                  <p className="para-white">{weather.humidity}</p>
+              </div>
+              <div className="subcontainer">
+                  <p className="para-blue">Pressure</p>
+                  <p className="para-white">{weather.pressure}</p>
+              </div>
+              <div className="subcontainer">
+                  <p className="para-blue">Visibility</p>
+                  <p className="para-white">{weather.visibility}</p>
+              </div>
+              <div className="subcontainer">
+                  <p className="para-blue">Sunrise</p>
+                  <p className="para-white">{weather.sunrise}</p>
+              </div>
+              <div className="subcontainer">
+                  <p className="para-blue">Sunset</p>
+                  <p className="para-white">{weather.sunset}</p>
+              </div>
+            </div></>}
+          
+          {weather.loading &&
+          <><p className="header" style={{textAlign:"center"}}><b>Loading information...</b></p></>}
+          </div>
+        </header>
+      </div>
+    </>
   );
 }
 

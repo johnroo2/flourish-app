@@ -4,6 +4,14 @@
   font-family: "Jost";
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  font-size: 100%;
+}
+
 p{
   margin-block-start: 0;
   margin-block-end: 0;
@@ -31,41 +39,41 @@ p{
 }
 
 .para-white { 
-  font-size: 30px;
+  font-size: 1.2em;
   color: white;
   flex:1
 }
 
 .para-blue{
-  font-size: 30px;
+  font-size: 1.2em;
   color: #99CCE9;
   flex:1;
 }
 
 .header{
-  font-size: 70px;
+  font-size: 3.5em;
   color: #99CCE9;
 }
 
 .weather-main{
-  font-size: 140px;
+  font-size: 7em;
   color: #99CCE9;
   font-weight:bolder;
   flex:14;
 }
 
 .weather-sub{
-  font-size: 60px;
+  font-size: 5em;
   color: white;
   flex:9;
-  margin-bottom:35px;
+  margin-bottom: 2%;
 }
 
 .weather-center{
   display:flex;
   align-items:flex-end;
   flex-direction:row;
-  width:500px
+  width:500px;
 }
 
 .weather-img{
@@ -84,10 +92,19 @@ p{
 
 .App-header{
   background-color: #151924;
+  margin-left: 3.5%;
 }
 
 body{
-  margin-left:3.5%;
+  margin: 0;
   /*background-color: #37405D;*/
   background-color: #151924;
+}
+
+#top-container {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 15vh;
+  background-color: #576a9c;
 }
