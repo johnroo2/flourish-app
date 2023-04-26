@@ -13,3 +13,88 @@
 .pulse {
     animation: pulse-animation 0.75s infinite;
 }
+
+.leafbg{
+    position:relative;
+}
+
+.leafbg::before{
+    content: "";
+    background-image: url("./../../imgs/mint-bg.png");
+    background-size: 20%;
+    background-repeat: repeat;
+    position:absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    opacity:0.25;
+}
+
+.plantbg{
+    background-image: url("./../../imgs/leafbackground.png");
+    background-size: 100%;
+}
+
+.stickyheader{
+    position:fixed; top:0; width:100%;
+    z-index:0
+}
+
+.stickyside{
+    position:fixed; top:80; height:100%;
+    z-index:100
+}
+
+body{
+    overflow:hidden;
+}
+
+.datepickerinput .MuiInputBase-input {
+    padding: 2px !important;
+    padding-left: 10px !important;
+    width: 125px;
+    color:white;
+}
+
+.datepickerinput .MuiOutlinedInput-notchedOutline {
+border-color: white !important;
+}
+.datepickerinput:hover .MuiOutlinedInput-notchedOutline {
+border-color: white !important;
+}
+.datepickerinput .Mui-focused .MuiOutlinedInput-notchedOutline {
+border-color: white !important;
+}
+.datepickerinput:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+border-color: white !important;
+}
+.datepickerinput .MuiSvgIcon-root{
+fill: #ffffffaa;
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+
+    position: fixed;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+}
+  
+.modal .flex {
+    display: flex;
+}
+
+.blurbg{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+
+    z-index: 150;
+}

@@ -6,31 +6,26 @@ import Garden from './components/garden/garden'
 import React from 'react';
 
 function App() {
-  //const [authUser, setAuthUser] = React.useState("");
-
-  // const externalSetAuthUser = (data) => {
-  //   setAuthUser(data);
-  //   console.log(currentUser);
+  // function current(suffix, url=":3000/"){
+  //   let processedSuffix = url+suffix;
+  //   return window.location.href.endsWith(processedSuffix) || window.location.href.endsWith(processedSuffix+"/");
   // }
-
-  function current(suffix, url=":3000/"){
-    let processedSuffix = url+suffix;
-    return window.location.href.endsWith(processedSuffix) || window.location.href.endsWith(processedSuffix+"/");
-  }
+  const [user, setUser] = React.useState(null);
+  const [site, setSite] = React.useState("login")
 
   return (
     <div>
-      {current("") &&
+      {site === "login" &&
       <>
-        <Login/>
+        <Login setSite={setSite} user={user} setUser={setUser}/>
       </>}
-      {current("signup") &&
+      {site === "signup" &&
       <>
-        <SignUp/>
+        <SignUp setSite={setSite} user={user} setUser={setUser}/>
       </>}
-      {current("garden") && 
+      {site === "garden" && 
       <>
-        <Garden/>
+        <Garden setSite={setSite} user={user} setUser={setUser}/>
       </>}
     </div>
   )
