@@ -1,4 +1,5 @@
 import React from "react";
+import Subgoal from "../../../../classes/subgoal"
 
 export default function GardenSubgoal({user, setUser, goal, subgoal, index}){
 
@@ -55,7 +56,17 @@ export default function GardenSubgoal({user, setUser, goal, subgoal, index}){
                             <img alt="delete" className="p-[2px] object-fill" 
                                 src={require("./../../../../imgs/trashcan-white.png")}></img>
                         </button>
-                        <p className="text-white w-[300px] self-center">Goal #{subgoal.iden_subgoal}: {subgoal.title}</p>
+                        <p className="text-white w-[250px] self-center">{subgoal.title}</p>
+                        {new Date(...subgoal.date).getTime() >= Date.now() &&
+                            <p className="text-white self-center">
+                                {Subgoal.getDifferentialString(subgoal)}
+                            </p>
+                        }
+                        {new Date(...subgoal.date).getTime() < Date.now() && 
+                            <p className="text-coralultrabright self-center">
+                                {Subgoal.getDifferentialString(subgoal)}
+                            </p>
+                        }
                     </div>
                 </div>
             </div>

@@ -5,7 +5,8 @@ import Goal from "./../../../classes/goal";
 import "./../../garden/garden.css"
 
 export default function GardenGoalMaker({setUser, user}){
-    const[addState, setAddState] = React.useState(false);
+    const [animationState, setAnimationState] = React.useState(0);
+    const [midAnimation, setMidAnimation] = React.useState(false);
 
     const[title, setTitle] = React.useState('');
     const[limitOption, setLimitOption] = React.useState('---');
@@ -40,8 +41,33 @@ export default function GardenGoalMaker({setUser, user}){
         setTitle('');
         setStreakType("---");
         setLimitOption("---");
-        setAddState(false);
+        setAnimationState(3);
     }
+
+    const animateClass = (index) => {
+        if(index === 1){return 'fadein'}
+        if(index === 3 || index === 0){return 'fadeout'}
+    }
+
+    React.useEffect(() => {
+        const updateAnimate = () => {
+            setAnimationState(prev => {
+                if(prev === 1){
+                    return 2;
+                }
+                if(prev === 3){
+                    return 0;
+                }
+                return prev;
+            })
+        }
+
+        if(midAnimation){
+            setTimeout(() => {
+                updateAnimate();
+            }, 150)
+        }
+    }, [midAnimation])
 
     React.useEffect(() => {checkSubmission(false)});
 
@@ -49,16 +75,22 @@ export default function GardenGoalMaker({setUser, user}){
         <div className="">
             <button className="bg-white hover:bg-russian w-[250px] h-[2.25em] rounded-lg text-russian hover:text-white"
             onClick={function(){
-                setAddState(true);
+                setAnimationState(1);
             }}>
                 <b>New Goal</b>
             </button>
 
-            {addState && 
+            {animationState !== 0 && 
                 <>
                     <div className="blurbg"/>
 
-                    <div className="modal bg-yg-crayola rounded-lg content-between" style={{zIndex:200}}>
+                    <div className={`${animateClass(animationState)} modal bg-yg-crayola rounded-lg h-[400px] p-[25px]`} style={{zIndex:200}}
+                        onAnimationStart={() => {
+                            setMidAnimation(true);
+                        }}
+                        onAnimationEnd={() => {
+                            setMidAnimation(false);
+                        }}>
                         <div className="p-[25px] flex flex-col h-[400px]">
                             <div className="">
                                 <div>

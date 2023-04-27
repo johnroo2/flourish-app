@@ -24,7 +24,7 @@ export default function GardenGoal({setUser, user, goal, mode}){
                     <div className="pl-[25px]">
                         <p className="w-[350px] mt-[10px] text-white p-[3px] text-lg"><b>
                             {info.username ? `${info.username}: ` : ""}
-                            {info.title}</b> (#{info.iden_goal})</p>
+                            {info.title}</b></p>
                         <div>
                             {info.subgoals.length> 0 &&
                                 <>

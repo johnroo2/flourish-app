@@ -134,7 +134,6 @@ app.post('/signup', (req, res) => {
 
 //input: user object (setter) -> deep stringified data from firebase (not relevant)
 app.post('/set', (req, res) => {
-    console.log(req.body)
     setUser(req.body).then((info) => {
         res.send(info.data)
     })

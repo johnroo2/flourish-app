@@ -13,6 +13,7 @@ module.exports = {
         'palelime': '#fefff0',
         'coral': '#ef6f6c',
         'coralbright': "#fa9fac",
+        'coralultrabright': "#ffd0da",
         'jet': '#333333',
         'jetred': "#aa7460",
         'jetbright': "#888888",
