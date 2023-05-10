@@ -1,5 +1,6 @@
 import React from "react";
 import Subgoal from "../../../../classes/subgoal";
+import Goal from "../../../../classes/goal";
 import { DatePicker } from "@mui/x-date-pickers";
 import { TimePicker} from "@mui/x-date-pickers";
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -9,11 +10,15 @@ import ErrorBlock from "./../../../errorblock";
 import "./../../garden.css";
 
 export default function GardenSubgoalMaker({user, setUser, goal, setGoal}){
+    let current = dayjs();
+    current["$d"] = new Date(current["$d"].getFullYear(), current["$d"].getMonth(),
+        current["$d"].getDate(), current["$d"].getHours()+1);
+
     const [animationState, setAnimationState] = React.useState(0);
     const [midAnimation, setMidAnimation] = React.useState(false);
     const [title, setTitle] = React.useState("");
-    const [date, setDate] = React.useState(null);
-    const [time, setTime] = React.useState(null);
+    const [date, setDate] = React.useState(current);
+    const [time, setTime] = React.useState(current);
     const [error, setError] = React.useState(-1);
 
     function handleInputChange(fc){
@@ -25,6 +30,12 @@ export default function GardenSubgoalMaker({user, setUser, goal, setGoal}){
     function checkSubmission(strict){
         function errorScan(){
             if(!title.trim()){return 0;}
+            if(date === null || !date.isValid()){
+                return 1;
+            }
+            if(time === null || !time.isValid()){
+                return 2;
+            }
             return -1;
         }
         let sub = strict ? errorScan() : !(error === -1) ? errorScan() : -1;
@@ -35,8 +46,12 @@ export default function GardenSubgoalMaker({user, setUser, goal, setGoal}){
     function resetForm(){
         setTitle('');
         setAnimationState(3);
-        setDate(null);
-        setTime(null);
+
+        let current = dayjs();
+        current["$d"] = new Date(current["$d"].getFullYear(), current["$d"].getMonth(),
+            current["$d"].getDate(), current["$d"].getHours()+1);
+        setDate(current);
+        setTime(current);
         setError(-1);
     }
 
@@ -48,11 +63,6 @@ export default function GardenSubgoalMaker({user, setUser, goal, setGoal}){
     React.useEffect(() => {checkSubmission(false)});
 
     React.useEffect(() => {
-        let current = dayjs();
-        current["$d"] = new Date(current["$d"].getFullYear(), current["$d"].getMonth(),
-            current["$d"].getDate(), current["$d"].getHours()+1);
-        setDate(current);
-        setTime(current);
     }, []);
 
     React.useEffect(() => {
@@ -78,7 +88,7 @@ export default function GardenSubgoalMaker({user, setUser, goal, setGoal}){
     return(
         <div>
             <div className =
-            "box-border rounded-2xl mt-[-40px] h-[80px] w-[525px] bg-gradient-to-b from-russian from-30% to-yg-crayola flex justify-center flex-row"
+            "mt-[-40px] h-[80px] gardenbar bg-gradient-to-b from-russian from-30% to-yg-crayola flex justify-center flex-row"
             style={{zIndex:50}}>
                 <button className = "mt-[40px] h-[40px] w-[300px] text-center text-white border-none outline-none"
                     onClick={() => {
@@ -87,12 +97,7 @@ export default function GardenSubgoalMaker({user, setUser, goal, setGoal}){
                     Add a Subgoal
                 </button>
             </div> 
-            {/*
-            0: NOTHING
-            1: CLICKED, FADING IN
-            2: PASSIVE, IN
-            3: CLICKED, FADING OUT
-            */}
+
             {animationState !== 0 &&
                 <>
                     <div className="blurbg" 
@@ -118,8 +123,11 @@ export default function GardenSubgoalMaker({user, setUser, goal, setGoal}){
                                     <label htmlFor="date" className="text-white text-sm">Date</label>
                                     <div id="date" className="">
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                            <DatePicker value={date} onChange={(newDate) => setDate(newDate)} className="datepickerinput"/>  
+                                            <DatePicker value={date} onChange={(newDate) => setDate(newDate)} 
+                                                clearable={false} className="datepickerinput"/>  
                                         </LocalizationProvider>
+                                        {error === 1 && <><ErrorBlock text={"Invalid Date"}/></>}
+                                        {error === 2 && <><ErrorBlock text={"Invalid Time"}/></>}
                                     </div>
                                 </div>
 
@@ -127,7 +135,8 @@ export default function GardenSubgoalMaker({user, setUser, goal, setGoal}){
                                     <label htmlFor="time" className="text-white text-sm">Time</label>
                                     <div id="time" className="">
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                            <TimePicker value={time} onChange={(newTime) => setTime(newTime)} className="datepickerinput"
+                                            <TimePicker value={time} onChange={(newTime) => setTime(newTime)} 
+                                                clearable={false} className="datepickerinput"
                                             format="hh:mm A" ampm={true}/>  
                                         </LocalizationProvider>
                                     </div>
@@ -141,7 +150,7 @@ export default function GardenSubgoalMaker({user, setUser, goal, setGoal}){
                                             let submitDate = date["$d"];
                                             let submitTime = time["$d"];
                                             
-                                            goal.subgoals.push(new Subgoal(title, 0, [submitDate.getFullYear(), 
+                                            goal.subgoals.push(new Subgoal(title, [submitDate.getFullYear(), 
                                                 submitDate.getMonth(), submitDate.getDate(), submitTime.getHours(),
                                                 submitTime.getMinutes()], user.subgoalcount++));
                                             setUser({...user});

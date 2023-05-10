@@ -58,6 +58,11 @@
     opacity:0.25;
 } */
 
+.gardenbar{
+    width: 550px;
+    border-radius: 20px;
+}
+
 .plantbg{
     background-image: url("./../../imgs/leafbackground.png");
     background-size: 100%;

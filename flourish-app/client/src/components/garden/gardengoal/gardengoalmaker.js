@@ -120,7 +120,7 @@ export default function GardenGoalMaker({setUser, user}){
                                                 Streak Period
                                             </label>
                                             <GardenDropDown id="streaksel" optionSetter={setStreakType}
-                                            options={["---", "Days", "Weeks", "Months", "Years"]}/>
+                                            options={["---", "Days", "Weeks", "Months"]}/>
                                         </div>
                                         {error === 2 && <><ErrorBlock text={"Select a streak period"}/></>}
                                     </>
@@ -129,10 +129,10 @@ export default function GardenGoalMaker({setUser, user}){
                             <div className="flex flex-row gap-[8px] mt-auto">
                                 <button className="bg-jet hover:bg-coral w-[120px] h-[2em] rounded-lg text-white"
                                     onClick={function(){
+                                        setAnimationState(2);
                                         if(checkSubmission(true) === -1){
                                             user.goals.push(new Goal(title, user.firstname, streakType, user.goalcount++));
                                             setUser({...user});
-                                            console.log(user);
                                             resetForm();
                                         }
                                     }}> 
@@ -140,6 +140,8 @@ export default function GardenGoalMaker({setUser, user}){
                                 </button>
                                 <button className="bg-russian hover:bg-coral w-[120px] h-[2em] rounded-lg text-white"
                                     onClick={function(){
+                                        setAnimationState(2);
+                                        setUser({...user});
                                         resetForm();
                                     }}>
                                 Cancel

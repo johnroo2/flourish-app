@@ -5,6 +5,7 @@ import GardenLoading from "./gardenloading";
 import GardenHeader from "./gardenheader";
 import "./garden.css";
 import User from "./../../classes/user";
+import Goal from "./../../classes/goal";
 
 export default function Garden({setSite, user, setUser}){
     const[edit, setEdit] = React.useState(false);
@@ -50,16 +51,10 @@ export default function Garden({setSite, user, setUser}){
                                     <div className="pl-[50px] pt-[20px] gap-[15px] flex flex-col">
                                         {user.goals.length > 0 && (
                                             <>
-                                                {user.goals.map((item, key) => {
-
+                                                {User.getReverseGoals(user).map((item, key) => {
                                                     return(
                                                     <div>
-                                                        <GardenGoal
-                                                            setUser={setUser}
-                                                            user={user}
-                                                            goal={item}
-                                                            mode={edit}
-                                                        />
+                                                        <GardenGoal setUser={setUser} user={user} goal={item} mode={edit}/>
                                                     </div>
                                                     )
                                                 })}

@@ -1,13 +1,51 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import crypto from 'crypto';
+import fs from 'fs';
 import { setDoc, doc, getDoc, collection, updateDoc } from "@firebase/firestore"
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
 
+const algorithm = 'aes-256-cbc';
+
+const keyFile = './key.bin';
+const masterKey = 'sampletext';
+let key, iv;
+
+if (fs.existsSync(keyFile)) {
+    const data = fs.readFileSync(keyFile);
+    key = Uint8Array.prototype.slice.call(data, 0, 32); 
+    iv = Uint8Array.prototype.slice.call(data, 32, 48); 
+} else {
+    key = crypto.randomBytes(32);
+    iv = crypto.randomBytes(16);
+    const data = Buffer.concat([key, iv]);
+    console.log(data.length)
+    let cipher = crypto.createCipheriv(algorithm, Buffer.from(key), iv);
+    const encryptedData = Buffer.concat([cipher.update(data), cipher.final()]);
+    fs.writeFileSync(keyFile, encryptedData);
+}
+
 const app = express();
 
 const PORT = 4000;
+
+function encrypt(text) {
+    let cipher = crypto.createCipheriv(algorithm, Buffer.from(key), iv);
+    let encrypted = cipher.update(text);
+    encrypted = Buffer.concat([encrypted, cipher.final()]);
+    return encrypted.toString('hex');
+}
+
+function decrypt(text) {
+    text = {iv: iv, encryptedData: text};
+    let encryptedText = Buffer.from(text.encryptedData, 'hex');
+    let decipher = crypto.createDecipheriv(algorithm, Buffer.from(key), iv);
+    let decrypted = decipher.update(encryptedText);
+    decrypted = Buffer.concat([decrypted, decipher.final()]);
+    return decrypted.toString();
+}
 
 const firebaseConfig = {
     apiKey: "AIzaSyBc6fQphfkhuyBB60S5_fC20ZLJa1igbGw",
@@ -58,10 +96,10 @@ const makeUser = async(info) => {
         else{
             try{
                 let userData = {
-                    username: info.username, 
-                    password: info.password,
-                    firstname: info.firstname,
-                    lastname: info.lastname,
+                    username: encrypt(info.username), 
+                    password: encrypt(info.password),
+                    firstname: encrypt(info.firstname),
+                    lastname: encrypt(info.lastname),
                     goals: [],
                     goalcount: 0,
                     subgoalcount: 0};
@@ -90,14 +128,18 @@ const authUser = async(user) => {
 
     if(refSnap.exists()){
         let data = refSnap.data();
-        if(user.password !== data.password){
+
+        console.log(data.password);
+        console.log(decrypt(data.password))
+
+        if(user.password !== decrypt(data.password)){
             return {code:401, error: 3, info:null, subtext: "Password is incorrect"};
         }
         return {code:200, error: -1, info:{
-            username:data.username,
-            password:data.password,
-            firstname:data.firstname,
-            lastname:data.lastname,
+            username:decrypt(data.username),
+            password:decrypt(data.password),
+            firstname:decrypt(data.firstname),
+            lastname:decrypt(data.lastname),
             goals:data.goals,
             goalcount:data.goalcount,
             subgoalcount:data.subgoalcount
@@ -112,10 +154,14 @@ const setUser = async(info) => {
     const ref = doc(firestore, "flourish_auth", info.username);
     const refSnap = await getDoc(ref);
 
-    await updateDoc(ref, {username:info.username, password:info.password, 
-        firstname:info.firstname, lastname:info.lastname, goals:info.goals, 
+    await updateDoc(ref, {username:encrypt(info.username), password:encrypt(info.password), 
+        firstname:encrypt(info.firstname), lastname:encrypt(info.lastname), goals:info.goals, 
         goalcount:info.goalcount, subgoalcount:info.subgoalcount});
-    return {code:200, error:-1, data:refSnap.data()}
+    return {code:200, error:-1, 
+        data:{...refSnap.data(), username:decrypt(refSnap.data().username), 
+            password:decrypt(refSnap.data().password),
+            firstname:decrypt(refSnap.data().firstname),
+            lastname:decrypt(refSnap.data().lastname)}}
 }
 
 //input: username, password (object) -> deepstringified login output (code, error, info)
